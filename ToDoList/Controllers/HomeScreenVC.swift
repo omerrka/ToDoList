@@ -9,6 +9,7 @@ import UIKit
 
 class HomeScreenVC: UIViewController {
     
+    let todoSheetVC = TodoSheetVC()
     private let homeScreenListCell = HomeScreenTableViewCell()
     var tableView = UITableView()
     var mainTitleLabel = UILabel()
@@ -25,6 +26,7 @@ class HomeScreenVC: UIViewController {
         configureMainTitle()
         configureTableView()
         setTableViewDelegates()
+        addButton.addTarget(self, action: #selector(addToDo(sender:)), for: .touchUpInside)
 
     }
     
@@ -42,15 +44,15 @@ class HomeScreenVC: UIViewController {
     func configureAddButton() {
         view.addSubview(addButton)
         addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 72).isActive = true
-        addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -36).isActive = true
+        addButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -46).isActive = true
         addButton.setImage(UIImage(systemName: "plus"), for: .normal)
         addButton.imageView?.contentMode = .scaleAspectFit
     }
     
     func configureTableView() {
         view.addSubview(tableView)
-        tableView.rowHeight = 30
+        tableView.rowHeight = 100
         tableView.register(HomeScreenTableViewCell.self, forCellReuseIdentifier: Cells.homeCell)
         tableView.pin(to: view, mainTitleLabel: mainTitleLabel)
     }
@@ -58,6 +60,16 @@ class HomeScreenVC: UIViewController {
     func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    @objc
+    func addToDo(sender: UIButton) {
+        
+        if let sheet = todoSheetVC.sheetPresentationController {
+            sheet.detents = [.large()]
+        }
+       
+        present(self.todoSheetVC, animated: true)
     }
 }
 
