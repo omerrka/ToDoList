@@ -7,8 +7,10 @@
 
 import UIKit
 
+
 class TodoSheetVC: UIViewController {
     
+    let coreDataModel = CoreDataModel()
     var cancelButton = UIButton()
     var saveButton = UIButton()
     var mainTitleLabel = UILabel()
@@ -19,8 +21,11 @@ class TodoSheetVC: UIViewController {
     var shortDescriptionTextField = UITextField()
     var priorityPicker = UIPickerView()
     let prioritys = ["LOW", "MEDIUM", "HIGH"]
+    var priority : String?
+    
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
@@ -39,8 +44,7 @@ class TodoSheetVC: UIViewController {
         
         cancelButton.addTarget(self, action: #selector(cancelToDo(sender:)), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(saveToDo(sender:)), for: .touchUpInside)
-
-
+        
     }
     
     func configureCancelButton() {
@@ -81,6 +85,7 @@ class TodoSheetVC: UIViewController {
     }
     
     func configureTitleLabel() {
+        
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: mainTitleLabel.bottomAnchor, constant: 48).isActive = true
@@ -93,6 +98,7 @@ class TodoSheetVC: UIViewController {
     }
     
     func configureTitleTextField() {
+        
         view.addSubview(titleTextField)
         titleTextField.translatesAutoresizingMaskIntoConstraints = false
         titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 48).isActive = true
@@ -104,6 +110,7 @@ class TodoSheetVC: UIViewController {
     }
     
     func configureShortDescriptionLabel() {
+        
         view.addSubview(shortDescriptionLabel)
         shortDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         shortDescriptionLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 48).isActive = true
@@ -116,6 +123,7 @@ class TodoSheetVC: UIViewController {
     }
     
     func configureShortDescriptionTextField() {
+        
         view.addSubview(shortDescriptionTextField)
         shortDescriptionTextField.translatesAutoresizingMaskIntoConstraints = false
         shortDescriptionTextField.topAnchor.constraint(equalTo: shortDescriptionLabel.bottomAnchor, constant: 48).isActive = true
@@ -148,12 +156,30 @@ class TodoSheetVC: UIViewController {
     
     @objc
     func cancelToDo(sender: UIButton) {
+        
+        titleTextField.text = ""
+        shortDescriptionTextField.text = ""
         dismiss(animated: true)
     }
     
     @objc
     func saveToDo(sender: UIButton) {
-        dismiss(animated: true)
+        
+        if titleTextField.text == "" {
+            titleTextField.placeholder = "Type Something"
+            
+        } else {
+            
+            let name = Notification.Name(reloadTableViewNotificationKey)
+            guard let title = titleTextField.text else {return}
+            guard let short = shortDescriptionTextField.text else {return}
+            guard let priority = priority else {return}
+            coreDataModel.createItem(title: title, shorDesc: short, priority: priority)
+            NotificationCenter.default.post(name: name, object: nil)
+            titleTextField.text = ""
+            shortDescriptionTextField.text = ""
+            dismiss(animated: true)
+        }
     }
 }
 
@@ -171,5 +197,7 @@ extension TodoSheetVC: UIPickerViewDataSource, UIPickerViewDelegate {
         prioritys[row]
     }
     
-    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        priority = prioritys[row]
+    }
 }

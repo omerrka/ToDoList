@@ -7,27 +7,50 @@
 
 import UIKit
 
-class HomeScreenVC: UIViewController {
+let reloadTableViewNotificationKey = "reloadTableView"
+
+class HomeScreenVC: UIViewController, CoreDataDelegate {
     
+    let coreDataModel = CoreDataModel()
     let todoSheetVC = TodoSheetVC()
     private let homeScreenListCell = HomeScreenTableViewCell()
     var tableView = UITableView()
     var mainTitleLabel = UILabel()
     var addButton = UIButton()
-
+    
+    let reload = Notification.Name(reloadTableViewNotificationKey)
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     struct Cells {
         static let homeCell = "HomeScreenTableViewCell"
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureAddButton()
         configureMainTitle()
-        configureTableView()
         setTableViewDelegates()
+        configureTableView()
+        createObserver()
+        coreDataModel.getAllItems()
+        coreDataModel.delegate = self
         addButton.addTarget(self, action: #selector(addToDo(sender:)), for: .touchUpInside)
-
+        
+    }
+    
+    func createObserver() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeScreenVC.updateTableView(notification:)), name: reload, object: nil)
+    }
+    
+    @objc func updateTableView(notification: NSNotification) {
+        DispatchQueue.main.async {
+            self.coreDataModel.getAllItems()
+        }
     }
     
     func configureMainTitle() {
@@ -51,9 +74,12 @@ class HomeScreenVC: UIViewController {
     }
     
     func configureTableView() {
-        view.addSubview(tableView)
-        tableView.rowHeight = 100
+        
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(HomeScreenTableViewCell.self, forCellReuseIdentifier: Cells.homeCell)
+        
+        view.addSubview(tableView)
         tableView.pin(to: view, mainTitleLabel: mainTitleLabel)
     }
     
@@ -67,28 +93,64 @@ class HomeScreenVC: UIViewController {
         
         if let sheet = todoSheetVC.sheetPresentationController {
             sheet.detents = [.large()]
+            
         }
-       
         present(self.todoSheetVC, animated: true)
+    }
+    
+    func reloadToDoList() {
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 
 extension HomeScreenVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return coreDataModel.models.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let model = coreDataModel.models[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: Cells.homeCell) as! HomeScreenTableViewCell
-
+        
+        cell.titleLabel.text = model.title
+        cell.shortDescriptionLabel.text = model.shorDesc
+        
+        if model.priority == "HIGH" {
+            cell.priorityLabel.textColor = .systemRed
+        } else if model.priority == "MEDIUM" {
+            cell.priorityLabel.textColor = .systemGray3
+        } else if model.priority == "LOW" {
+            cell.priorityLabel.textColor = .systemBlue
+        }
+        
+        cell.priorityLabel.text = model.priority
+        
         return cell
-
+        
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = coreDataModel.models[indexPath.row]
+        
+        let alert = UIAlertController(title: "Delete ToDo?", message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+            self?.coreDataModel.deleteItem(item: item)
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+            
+        }))
+        
+        self.present(alert, animated: true, completion: {
+        })
     }
-    
-    
 }
