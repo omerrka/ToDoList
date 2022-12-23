@@ -21,6 +21,7 @@ class HomeScreenVC: UIViewController, CoreDataDelegate {
     let reload = Notification.Name(reloadTableViewNotificationKey)
     
     deinit {
+        
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -39,7 +40,6 @@ class HomeScreenVC: UIViewController, CoreDataDelegate {
         coreDataModel.getAllItems()
         coreDataModel.delegate = self
         addButton.addTarget(self, action: #selector(addToDo(sender:)), for: .touchUpInside)
-        
     }
     
     func createObserver() {
@@ -95,6 +95,7 @@ class HomeScreenVC: UIViewController, CoreDataDelegate {
             sheet.detents = [.large()]
             
         }
+        
         present(self.todoSheetVC, animated: true)
     }
     

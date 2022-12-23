@@ -8,13 +8,12 @@
 import UIKit
 
 class MainTabBarVC: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let vc1 = UINavigationController(rootViewController: HomeScreenVC())
         let vc2 = UINavigationController(rootViewController: SortScreenVC())
-        
         
         vc1.tabBarItem.image = UIImage(systemName: "house.fill")
         vc2.tabBarItem.image = UIImage(systemName: "doc.plaintext")
@@ -23,7 +22,5 @@ class MainTabBarVC: UITabBarController {
         vc2.title = "Sort"
         setViewControllers([vc1, vc2], animated: true)
     }
-
-
 }
 

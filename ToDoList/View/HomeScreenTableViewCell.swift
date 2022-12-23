@@ -67,6 +67,7 @@ class HomeScreenTableViewCell: UITableViewCell {
     }
     
     func configureShortDescriptionLabel() {
+        
         shortDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         shortDescriptionLabel.numberOfLines = 0
         shortDescriptionLabel.adjustsFontSizeToFitWidth = true
@@ -79,6 +80,7 @@ class HomeScreenTableViewCell: UITableViewCell {
     }
     
     func configurePriorityLabel() {
+        
         priorityLabel.translatesAutoresizingMaskIntoConstraints = false
         priorityLabel.numberOfLines = 0
         priorityLabel.adjustsFontSizeToFitWidth = true

@@ -23,7 +23,6 @@ class TodoSheetVC: UIViewController {
     let prioritys = ["LOW", "MEDIUM", "HIGH"]
     var priority : String?
     
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
