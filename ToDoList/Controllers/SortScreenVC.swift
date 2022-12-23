@@ -9,8 +9,8 @@ import UIKit
 
 class SortScreenVC: UIViewController, CoreDataDelegate {
     
-    private let homeScreenListCell = HomeScreenTableViewCell()
-    let coreDataModel = CoreDataModel()
+    private let sortScreenListCell = HomeSortScreenTableViewCell()
+    let coreDataViewModel = CoreDataViewModel()
     var tableView = UITableView()
     var lowLevelButton = UIButton()
     var mediumLevelButton = UIButton()
@@ -19,14 +19,14 @@ class SortScreenVC: UIViewController, CoreDataDelegate {
     var priorityLevel = "LOW"
     
     struct Cells {
-        static let homeCell = "HomeScreenTableViewCell"
+        static let sortCell = "HomeSortScreenTableViewCell"
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        coreDataModel.getLowLevelPriorityTodo()
-        coreDataModel.getMediumLevelPriorityTodo()
-        coreDataModel.getHıghLevelPriorityToDo()
+        coreDataViewModel.getLowLevelPriorityTodo()
+        coreDataViewModel.getMediumLevelPriorityTodo()
+        coreDataViewModel.getHıghLevelPriorityToDo()
     }
     
     override func viewDidLoad() {
@@ -44,9 +44,9 @@ class SortScreenVC: UIViewController, CoreDataDelegate {
         configureBackgroundForButton()
         configureTableView()
         setTableViewDelegates()
-        coreDataModel.delegate = self
+        coreDataViewModel.delegate = self
         
-        coreDataModel.getLowLevelPriorityTodo()
+        coreDataViewModel.getLowLevelPriorityTodo()
         
         lowLevelButton.addTarget(self, action: #selector(showLowLevelToDo(sender:)), for: .touchUpInside)
         mediumLevelButton.addTarget(self, action: #selector(showMediumLevelToDo(sender:)), for: .touchUpInside)
@@ -104,7 +104,7 @@ class SortScreenVC: UIViewController, CoreDataDelegate {
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.register(HomeScreenTableViewCell.self, forCellReuseIdentifier: Cells.homeCell)
+        tableView.register(HomeSortScreenTableViewCell.self, forCellReuseIdentifier: Cells.sortCell)
         
         view.addSubview(tableView)
         tableView.secondPin(to: view, backgroundView: backgroundForButton)
@@ -120,7 +120,7 @@ class SortScreenVC: UIViewController, CoreDataDelegate {
     func showLowLevelToDo(sender: UIButton) {
         
         priorityLevel = "LOW"
-        coreDataModel.getLowLevelPriorityTodo()
+        coreDataViewModel.getLowLevelPriorityTodo()
         lowLevelButton.backgroundColor = .white
         mediumLevelButton.backgroundColor = .clear
         highLevelButton.backgroundColor = .clear
@@ -131,7 +131,7 @@ class SortScreenVC: UIViewController, CoreDataDelegate {
     func showMediumLevelToDo(sender: UIButton) {
         
         priorityLevel = "MEDIUM"
-        coreDataModel.getMediumLevelPriorityTodo()
+        coreDataViewModel.getMediumLevelPriorityTodo()
         lowLevelButton.backgroundColor = .clear
         mediumLevelButton.backgroundColor = .white
         highLevelButton.backgroundColor = .clear
@@ -142,7 +142,7 @@ class SortScreenVC: UIViewController, CoreDataDelegate {
     func showHighLevelToDo(sender: UIButton) {
         
         priorityLevel = "HIGH"
-        coreDataModel.getHıghLevelPriorityToDo()
+        coreDataViewModel.getHıghLevelPriorityToDo()
         lowLevelButton.backgroundColor = .clear
         mediumLevelButton.backgroundColor = .clear
         highLevelButton.backgroundColor = .white
@@ -170,15 +170,15 @@ extension SortScreenVC: UITableViewDelegate, UITableViewDataSource {
         
         if priorityLevel == "LOW" {
             
-            x = coreDataModel.lowLevelItem.count
+            x = coreDataViewModel.lowLevelItem.count
             
         } else if priorityLevel == "MEDIUM" {
             
-            x = coreDataModel.mediumLevelItem.count
+            x = coreDataViewModel.mediumLevelItem.count
             
         } else if priorityLevel == "HIGH" {
             
-            x = coreDataModel.highLevelItem.count
+            x = coreDataViewModel.highLevelItem.count
             
         }
         
@@ -187,12 +187,12 @@ extension SortScreenVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Cells.homeCell) as! HomeScreenTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Cells.sortCell) as! HomeSortScreenTableViewCell
         
         if priorityLevel == "LOW" {
-            let lowLevelData = coreDataModel.lowLevelItem[indexPath.row]
+            let lowLevelData = coreDataViewModel.lowLevelItem[indexPath.row]
             
-            if coreDataModel.lowLevelItem.count > 0 {
+            if coreDataViewModel.lowLevelItem.count > 0 {
                 
                 cell.titleLabel.text = lowLevelData.title
                 cell.shortDescriptionLabel.text = lowLevelData.shorDesc
@@ -204,9 +204,9 @@ extension SortScreenVC: UITableViewDelegate, UITableViewDataSource {
         
         if priorityLevel == "MEDIUM" {
             
-            let mediumLevelData = coreDataModel.mediumLevelItem[indexPath.row]
+            let mediumLevelData = coreDataViewModel.mediumLevelItem[indexPath.row]
             
-            if coreDataModel.mediumLevelItem.count > 0 {
+            if coreDataViewModel.mediumLevelItem.count > 0 {
                 
                 cell.titleLabel.text = mediumLevelData.title
                 cell.shortDescriptionLabel.text = mediumLevelData.shorDesc
@@ -218,9 +218,9 @@ extension SortScreenVC: UITableViewDelegate, UITableViewDataSource {
         
         if priorityLevel == "HIGH" {
             
-            let highLevelData = coreDataModel.highLevelItem[indexPath.row]
+            let highLevelData = coreDataViewModel.highLevelItem[indexPath.row]
             
-            if coreDataModel.highLevelItem.count > 0 {
+            if coreDataViewModel.highLevelItem.count > 0 {
                 
                 cell.titleLabel.text = highLevelData.title
                 cell.shortDescriptionLabel.text = highLevelData.shorDesc

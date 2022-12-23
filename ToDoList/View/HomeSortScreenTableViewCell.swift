@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeScreenTableViewCell: UITableViewCell {
+class HomeSortScreenTableViewCell: UITableViewCell {
     
     var titleLabel = UILabel()
     var shortDescriptionLabel = UILabel()

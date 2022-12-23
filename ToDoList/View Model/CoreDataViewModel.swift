@@ -12,7 +12,7 @@ protocol CoreDataDelegate {
     func reloadToDoList()
 }
 
-class CoreDataModel {
+class CoreDataViewModel {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var models = [ToDoListItem]()

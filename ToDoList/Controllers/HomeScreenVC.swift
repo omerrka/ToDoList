@@ -11,9 +11,9 @@ let reloadTableViewNotificationKey = "reloadTableView"
 
 class HomeScreenVC: UIViewController, CoreDataDelegate {
     
-    let coreDataModel = CoreDataModel()
+    let coreDataViewModel = CoreDataViewModel()
     let todoSheetVC = TodoSheetVC()
-    private let homeScreenListCell = HomeScreenTableViewCell()
+    private let homeScreenListCell = HomeSortScreenTableViewCell()
     var tableView = UITableView()
     var mainTitleLabel = UILabel()
     var addButton = UIButton()
@@ -37,8 +37,8 @@ class HomeScreenVC: UIViewController, CoreDataDelegate {
         setTableViewDelegates()
         configureTableView()
         createObserver()
-        coreDataModel.getAllItems()
-        coreDataModel.delegate = self
+        coreDataViewModel.getAllItems()
+        coreDataViewModel.delegate = self
         addButton.addTarget(self, action: #selector(addToDo(sender:)), for: .touchUpInside)
     }
     
@@ -49,7 +49,7 @@ class HomeScreenVC: UIViewController, CoreDataDelegate {
     
     @objc func updateTableView(notification: NSNotification) {
         DispatchQueue.main.async {
-            self.coreDataModel.getAllItems()
+            self.coreDataViewModel.getAllItems()
         }
     }
     
@@ -77,7 +77,7 @@ class HomeScreenVC: UIViewController, CoreDataDelegate {
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.register(HomeScreenTableViewCell.self, forCellReuseIdentifier: Cells.homeCell)
+        tableView.register(HomeSortScreenTableViewCell.self, forCellReuseIdentifier: Cells.homeCell)
         
         view.addSubview(tableView)
         tableView.pin(to: view, mainTitleLabel: mainTitleLabel)
@@ -110,13 +110,13 @@ class HomeScreenVC: UIViewController, CoreDataDelegate {
 extension HomeScreenVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return coreDataModel.models.count
+        return coreDataViewModel.models.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let model = coreDataModel.models[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: Cells.homeCell) as! HomeScreenTableViewCell
+        let model = coreDataViewModel.models[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: Cells.homeCell) as! HomeSortScreenTableViewCell
         
         cell.titleLabel.text = model.title
         cell.shortDescriptionLabel.text = model.shorDesc
@@ -138,12 +138,12 @@ extension HomeScreenVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-        let item = coreDataModel.models[indexPath.row]
+        let item = coreDataViewModel.models[indexPath.row]
         
         let alert = UIAlertController(title: "Delete ToDo?", message: nil, preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
-            self?.coreDataModel.deleteItem(item: item)
+            self?.coreDataViewModel.deleteItem(item: item)
             
         }))
         

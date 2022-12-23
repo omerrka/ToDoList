@@ -19,8 +19,7 @@
 		27898B302950674000FDD9B6 /* HomeScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27898B2F2950674000FDD9B6 /* HomeScreenVC.swift */; };
 		27898B322950675C00FDD9B6 /* SortScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27898B312950675C00FDD9B6 /* SortScreenVC.swift */; };
 		27898B3429506D3600FDD9B6 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27898B3329506D3600FDD9B6 /* UIView+Ext.swift */; };
-		27898B3729506DBC00FDD9B6 /* HomeScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27898B3629506DBC00FDD9B6 /* HomeScreenTableViewCell.swift */; };
-		27898B392950A35200FDD9B6 /* SortScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27898B382950A35200FDD9B6 /* SortScreenTableViewCell.swift */; };
+		27898B3729506DBC00FDD9B6 /* HomeSortScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27898B3629506DBC00FDD9B6 /* HomeSortScreenTableViewCell.swift */; };
 		27C8A3032950AB4E0048A8FE /* TodoSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C8A3022950AB4E0048A8FE /* TodoSheetVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,8 +38,7 @@
 		27898B2F2950674000FDD9B6 /* HomeScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenVC.swift; sourceTree = "<group>"; };
 		27898B312950675C00FDD9B6 /* SortScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortScreenVC.swift; sourceTree = "<group>"; };
 		27898B3329506D3600FDD9B6 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
-		27898B3629506DBC00FDD9B6 /* HomeScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenTableViewCell.swift; sourceTree = "<group>"; };
-		27898B382950A35200FDD9B6 /* SortScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortScreenTableViewCell.swift; sourceTree = "<group>"; };
+		27898B3629506DBC00FDD9B6 /* HomeSortScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSortScreenTableViewCell.swift; sourceTree = "<group>"; };
 		27C8A3022950AB4E0048A8FE /* TodoSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoSheetVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,11 +81,11 @@
 		27898B162950644900FDD9B6 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				27898B2E2950672500FDD9B6 /* Controllers */,
+				27EE202A2956024800EEBCAA /* View Model */,
 				27898B3529506D9300FDD9B6 /* View */,
 				27EE202B295602B000EEBCAA /* Helpers */,
 				2762B2172951B00D00E90A34 /* ToDoListItem */,
-				27898B2E2950672500FDD9B6 /* Controllers */,
-				27EE202A2956024800EEBCAA /* View Model */,
 				27898B172950644900FDD9B6 /* AppDelegate.swift */,
 				27898B192950644900FDD9B6 /* SceneDelegate.swift */,
 				27898B232950644A00FDD9B6 /* Assets.xcassets */,
@@ -112,8 +110,7 @@
 		27898B3529506D9300FDD9B6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				27898B3629506DBC00FDD9B6 /* HomeScreenTableViewCell.swift */,
-				27898B382950A35200FDD9B6 /* SortScreenTableViewCell.swift */,
+				27898B3629506DBC00FDD9B6 /* HomeSortScreenTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -212,11 +209,10 @@
 				2762B2192951B87200E90A34 /* CoreDataViewModel.swift in Sources */,
 				27898B322950675C00FDD9B6 /* SortScreenVC.swift in Sources */,
 				27898B1A2950644900FDD9B6 /* SceneDelegate.swift in Sources */,
-				27898B3729506DBC00FDD9B6 /* HomeScreenTableViewCell.swift in Sources */,
+				27898B3729506DBC00FDD9B6 /* HomeSortScreenTableViewCell.swift in Sources */,
 				27898B3429506D3600FDD9B6 /* UIView+Ext.swift in Sources */,
 				27898B302950674000FDD9B6 /* HomeScreenVC.swift in Sources */,
 				27898B222950644900FDD9B6 /* ToDoList.xcdatamodeld in Sources */,
-				27898B392950A35200FDD9B6 /* SortScreenTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

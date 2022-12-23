@@ -10,7 +10,7 @@ import UIKit
 
 class TodoSheetVC: UIViewController {
     
-    let coreDataModel = CoreDataModel()
+    let coreDataViewModel = CoreDataViewModel()
     var cancelButton = UIButton()
     var saveButton = UIButton()
     var mainTitleLabel = UILabel()
@@ -173,7 +173,7 @@ class TodoSheetVC: UIViewController {
             guard let title = titleTextField.text else {return}
             guard let short = shortDescriptionTextField.text else {return}
             guard let priority = priority else {return}
-            coreDataModel.createItem(title: title, shorDesc: short, priority: priority)
+            coreDataViewModel.createItem(title: title, shorDesc: short, priority: priority)
             NotificationCenter.default.post(name: name, object: nil)
             titleTextField.text = ""
             shortDescriptionTextField.text = ""
