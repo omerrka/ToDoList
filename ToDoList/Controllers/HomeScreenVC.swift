@@ -20,11 +20,6 @@ class HomeScreenVC: UIViewController, CoreDataDelegate {
     
     let reload = Notification.Name(reloadTableViewNotificationKey)
     
-    deinit {
-        
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     struct Cells {
         static let homeCell = "HomeScreenTableViewCell"
     }
